@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
+# list of added apps
 ADDED_APPS = [
     "portal",
 ]
