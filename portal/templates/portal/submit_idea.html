@@ -5,7 +5,7 @@
 
 <html>
     <head>
-        <title>Portal Registration</title>
+        <title>Portal Submit</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="{% static 'portal/login.css' %}">
@@ -14,29 +14,35 @@
     <body>
         <div class="login-box">
             <h2>Register</h2>
-            <form action="{% url 'register_view' %}" method="post">
+            <form action="{% url 'submit_idea_view' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Name" />
+                    <input type="text" name="project_title" placeholder="Project title" />
+                </div>
+                <!-- dropdown with five tracks -->
+                <div class="form-group">
+                    <select name="track">
+                        <option value="track1">Track 1</option>
+                        <option value="track2">Track 2</option>
+                        <option value="track3">Track 3</option>
+                        <option value="track4">Track 4</option>
+                        <option value="track5">Track 5</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="username" placeholder="Username" />
+                    <input type="text" name="project_description" placeholder="Project Description" />
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email" />
+                    <input type="text" name="github_link" placeholder="Github repository link" />
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" />
-                </div>
-                <div class="form-group">
-                    <input type="password" name="retype_password" placeholder="Retype Password" />
+                    <input type="text" name="drive_link" placeholder="Google drive link" />
                 </div>
                 <div class="form-group">
                     <input type="submit" name="Submit" placeholder="Submit" />
                 </div>
                 <p>{{ message }}</p>
             </form>
-            <h6>Have an account already? <a href="{% url 'login_view' %}"> Login now </a></h6>
         </div>
     </body>
 </html>

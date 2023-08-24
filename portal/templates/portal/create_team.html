@@ -1,0 +1,32 @@
+<!-- login page -->
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Portal Create</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'portal/login.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="login-box">
+            <h2>Create a team</h2>
+            <p>{{ message }}</p>
+            <form action="{% url 'create_team_view' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="team_name" placeholder="Team name" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="team_passcode" placeholder="Team passcode" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="Submit" placeholder="Submit" />
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
