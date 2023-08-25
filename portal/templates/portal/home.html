@@ -19,22 +19,16 @@
         <div class="login-box">
             <h2>Welcome, {{ user.username }}</h2>
             <p>{{ message }}</p>
-            {% if not user.in_team %}
+            {% if not in_team %}
                 <a href="{% url 'create_team_view' %}"><button class="button-primary">Create a team</button></a>
                 <a href="{% url 'join_team_view' %}"><button class="button-primary">Join a team</button></a>
             {% else %}
                 <h5><b>Team: {{ team.team_name }}</b></h5>
-                <h6><b>Members:</b></h6>
-                <h6>1. {{ team.member1.username }}</h6>
-                {% if team.member2 %}
-                    <h6>2. {{ team.member2.username }}</h6>
-                {% endif %}
-                {% if team.member3 %}
-                    <h6>3. {{ team.member3.username }}</h6>
-                {% endif %}
-                {% if team.member4 %}
-                    <h6>4. {{ team.member4.username }}</h6>
-                {% endif %}
+                <p>Passcode: {{ team.team_passcode }}</p>
+                <h4>Members: </h4>
+                {% for user in users %}
+                    <p>1. {{ user.username }}</p>
+                {% endfor %}
                 <a href="{% url 'leave_team_view' %}"><button class="button-primary">Leave team</button></a>
             {% endif %}
         </div>

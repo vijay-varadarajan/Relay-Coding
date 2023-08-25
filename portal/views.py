@@ -5,26 +5,41 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User, Team, Submission
+from .models import User, Team, Submission, UserStatus
 
 @login_required(login_url='/login')
 def home(request):
     user = request.user
-        
-    # Access the team information using the reverse relationships
-    team = Team.objects.get(member1=user)
+    user_status = UserStatus.objects.get(user=user)
     
-    print("Team Name:", team)
+    if user_status.in_team:
+        team = Team.objects.get(team_name=user_status.joined_team.team_name)
+        print(team)
+
+        # complete team members functionality
+        # get the usernames from user table of all users in user_status where joined_team matches team
+        # team_members = User.objects.filter(pk = )
+    
+        return render(request, "portal/home.html", {
+            'in_team': True, 'team':team , 'message': '',
+        })
     
     return render(request, "portal/home.html", {
-        'user': user, 'team': team, 'message': '',
+        'in_team': False, 'user': user, 'message': '',
     })
 
 
 @login_required(login_url='/login')
 def create_team_view(request):
     if request.method == "POST":
-        joined_team = User.objects.get(username=request.user.username).in_team
+        # check if userstatus.in_team is true for user id from user table
+        user = User.objects.get(username=request.user.username)
+        user_status = UserStatus.objects.get(user=user)
+        if user_status.in_team:
+            return render(request, "portal/create_team.html", {
+                'message': "You are already in a team!",
+            })
+
         message = ''
         team_name = request.POST["team_name"]
         team_passcode = request.POST["team_passcode"]
@@ -42,20 +57,20 @@ def create_team_view(request):
         
         
         # update database
-        new_team = Team(team_name=team_name, team_passcode=team_passcode, member1=request.user)
-        new_team.save()
+        new_team = Team(team_name=team_name, team_passcode=team_passcode)
         
-        user = User.objects.get(username=request.user.username)
-        user.in_team = True
-        user.save()
+        user_status.in_team = True
+        user_status.joined_team = new_team
+        
+        new_team.save()
+        user_status.save()
 
         message = "Team created successfully!"
     
-
         return HttpResponseRedirect(reverse("home"))
     return render(request, "portal/create_team.html", {
         'message': '',
-    })
+    })  
 
 
 def join_team_view(request):
@@ -139,7 +154,8 @@ def login_view(request):
 
 def register_view(request):
     if request.method == "POST":
-        name = request.POST["name"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
         username = request.POST["username"]
         email = request.POST["email"]
         
@@ -152,12 +168,16 @@ def register_view(request):
             })
         
         try:
-            user = User.objects.create_user(name=name, username=username, email=email, password=password)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             user.save()
         except IntegrityError:
             return render(request, "portal/register.html", {
                 "message": "Username/Email already taken!"
             })
+        
+        # update user status table
+        user_status = UserStatus.objects.create(user=user)
+        user_status.save()
         
         # here i need to log the user in as well
         login(request, user)
