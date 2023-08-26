@@ -1,39 +1,16 @@
-<!-- user home page -->
-<!-- login page -->
 {% load static %}
 
 <!DOCTYPE html>
-
 <html>
     <head>
-        <title>Portal Home</title>
+        <title>Portal home</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="{% static 'portal/login.css' %}">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     </head>
     <body>
-        <div>
-            <a href="{% url 'logout_view' %}"><button class="button-primary">Logout</button></a>
-        </div>
-        <div class="login-box">
-            <h2>Welcome, {{ user.username }}</h2>
-            <p>{{ message }}</p>
-            {% if not in_team %}
-                <a href="{% url 'create_team_view' %}"><button class="button-primary">Create a team</button></a>
-                <a href="{% url 'join_team_view' %}"><button class="button-primary">Join a team</button></a>
-            {% else %}
-                <h5><b>Team: {{ team.team_name }}</b></h5>
-                <p>Passcode: {{ team.team_passcode }}</p>
-                <h4>Members: </h4>
-                <ol>
-                    {% for member in members %}
-                        <li>{{ member }}</li>
-                    {% endfor %}
-                </ol>
-                <a href="{% url 'submission_view' %}"><button class="button-primary">Submit idea</button></a>
-                <a href="{% url 'leave_team_view' %}"><button class="button-primary">Leave team</button></a>
-            {% endif %}
-        </div>
+        <a href="{% url 'login_view' %}"><button class="button-primary">Login</button></a>
+        <a href="{% url 'register_view' %}"><button class="button-primary">Register</button></a>
     </body>
 </html>

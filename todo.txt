@@ -1,5 +1,0 @@
-leave team 
-delete team
-submission
- - modify user to contain team id
- 

@@ -8,13 +8,12 @@ from django.contrib.auth.decorators import login_required
 from .models import User, Team, Submission, UserStatus
 
 @login_required(login_url='/login')
-def home(request):
+def userhome(request):
     user = request.user
     user_status = UserStatus.objects.get(user=user)
     
     if user_status.in_team:
         team = Team.objects.get(team_name=user_status.joined_team.team_name)
-        print(team)
 
         # complete team members functionality
         # get the usernames from user table of all users in user_status where joined_team matches team
@@ -26,11 +25,11 @@ def home(request):
         for member_id in members_ids:
             members.append(str(User.objects.get(id = member_id).username))
 
-        return render(request, "portal/home.html", {
+        return render(request, "portal/userhome.html", {
             'in_team': True, 'members': members, 'team':team , 'message': '',
         })
     
-    return render(request, "portal/home.html", {
+    return render(request, "portal/userhome.html", {
         'in_team': False, 'user': user, 'message': '',
     })
 
@@ -93,7 +92,7 @@ def submission_view(request):
             submissions.save()
 
         if not user_status.in_team:
-            return render(request, "portal/home.html", {
+            return render(request, "portal/userhome.html", {
                 'message': "Create or join a team to submit idea!",
             })
         
@@ -139,7 +138,7 @@ def create_team_view(request):
 
         message = "Team created successfully!"
     
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("userhome"))
     return render(request, "portal/create_team.html", {
         'message': '',
     })  
@@ -180,7 +179,7 @@ def join_team_view(request):
         team.members_count += 1
         team.save()
         
-        return HttpResponseRedirect(reverse("home"), {})
+        return HttpResponseRedirect(reverse("userhome"), {})
     return render(request, "portal/join_team.html")
 
 
@@ -202,7 +201,7 @@ def leave_team_view(request):
     else:
         team.save()
 
-    return HttpResponseRedirect(reverse("home"), {
+    return HttpResponseRedirect(reverse("userhome"), {
         'user': request.user, 'message': '',
     })
 
@@ -229,7 +228,7 @@ def login_view(request):
             return render(request, "portal/login.html", {
                 "message": "Invalid username and/or password."
             })
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("userhome"))
     return render(request, "portal/login.html")
 
 
@@ -262,9 +261,15 @@ def register_view(request):
         
         # here i need to log the user in as well
         login(request, user)
-        return HttpResponseRedirect(reverse("home"))
+        return HttpResponseRedirect(reverse("userhome"))
     
     return render(request, "portal/register.html")
+
+
+def home(request):
+    return render(request, "portal/home.html", {
+        'user': request.user, 'message': '',
+    })
 
 
 def logout_view(request):
