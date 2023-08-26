@@ -18,16 +18,88 @@ def home(request):
 
         # complete team members functionality
         # get the usernames from user table of all users in user_status where joined_team matches team
-        # team_members = User.objects.filter(pk = )
-    
+        members_ids = []
+        for qset in UserStatus.objects.filter(joined_team_id = team.id):
+            members_ids += str(qset.id)
+
+        members = []
+        for member_id in members_ids:
+            members.append(str(User.objects.get(id = member_id).username))
+
         return render(request, "portal/home.html", {
-            'in_team': True, 'team':team , 'message': '',
+            'in_team': True, 'members': members, 'team':team , 'message': '',
         })
     
     return render(request, "portal/home.html", {
         'in_team': False, 'user': user, 'message': '',
     })
 
+
+@login_required(login_url='/login')
+def submission_view(request):
+    if request.method == "POST":
+        
+        project_title = request.POST["project_title"]
+        if not project_title:
+            return render(request, "portal/submission.html", {
+                'message': "Project title cannot be empty!",
+            })
+        
+        try:
+            track = request.POST["track"]
+        except:
+            return render(request, "portal/submission.html", {
+                'message': "Track cannot be empty!",
+            })
+        
+        project_description = request.POST["project_description"]
+        if not project_description:
+            return render(request, "portal/submission.html", {
+                'message': "Project description cannot be empty!",
+            })
+        
+        github_link = request.POST["github_link"]
+        
+        drive_link = request.POST["drive_link"]
+
+        # check if user is in a team
+        user = User.objects.get(username=request.user.username)
+        user_status = UserStatus.objects.get(user=user)
+        if not user_status.in_team:
+            return render(request, "portal/home.html", {
+                'message': "Create or join a team to submit idea!",
+            })
+        
+        submissions = Submission.objects.get(team=user_status.joined_team)
+        submissions.title = project_title
+        submissions.track = track
+        submissions.description = project_description
+        submissions.github_link = github_link
+        submissions.drive_link = drive_link
+        submissions.save()
+
+        return HttpResponseRedirect(reverse("home"), {
+            'user': request.user, 'message': '',
+        })
+
+    else:
+        user = User.objects.get(username=request.user.username)
+        user_status = UserStatus.objects.get(user=user)
+        
+        try:
+            submissions = Submission.objects.get(team=user_status.joined_team)
+        except:
+            submissions = Submission.objects.create(team=user_status.joined_team)
+            submissions.save()
+
+        if not user_status.in_team:
+            return render(request, "portal/home.html", {
+                'message': "Create or join a team to submit idea!",
+            })
+        
+        return render(request, "portal/submission.html", {
+            'message': '', 'submission': submissions,
+        })
 
 @login_required(login_url='/login')
 def create_team_view(request):
@@ -79,50 +151,59 @@ def join_team_view(request):
         team_name = request.POST["team_name"]
         team_passcode = request.POST["team_passcode"]
 
-        # check if team name and passcode in database matches
+        # check if team name exists
         try:
             team = Team.objects.get(team_name=team_name)
-            if team.team_passcode != team_passcode:
-                return render(request, "portal/join_team.html", {
-                    'message': "Incorrect passcode!",
-                })
-            # update database
-            user = User.objects.get(username=request.user.username)
-            user.in_team = True
-            user.save()
-
-            team = Team.objects.get(team_name=team_name)
-            if not team.member2:
-                team.member2 = user
-            elif not team.member3:
-                team.member3 = user
-            elif not team.member4:
-                team.member4 = user
-            else:
-                return render(request, "portal/join_team.html", {
-                    'message': "Team is full!",
-                })
-            team.save()
-        except Team.DoesNotExist:
+        except:
             return render(request, "portal/join_team.html", {
                 'message': "Team does not exist!",
             })
+        
+        # check if team passcode matches
+        if team.team_passcode != team_passcode:
+            return render(request, "portal/join_team.html", {
+                'message': "Incorrect passcode!",
+            })
+        
+        if team.members_count == 4:
+            return render(request, "portal/join_team.html", {
+                'message': "Team is full!",
+            })
 
+        # update userstatus with teamname and joined team
+        user_status = UserStatus.objects.get(user=request.user)
+        user_status.in_team = True
+        user_status.joined_team = team
+        user_status.save()
+
+        # update members_count in teams
+        team.members_count += 1
+        team.save()
+        
         return HttpResponseRedirect(reverse("home"), {})
     return render(request, "portal/join_team.html")
 
 
 def leave_team_view(request):
-    if request.method == "POST":
 
-        user = User.objects.get(username=request.user.username)
-        user.in_team = False
-        user.save()
+    user = User.objects.get(username=request.user.username)
+    user_status = UserStatus.objects.get(user=user)
 
-        #tbd
+    team = Team.objects.get(team_name=user_status.joined_team.team_name)
+    team.members_count -= 1
+
+
+    user_status.in_team = False
+    user_status.joined_team = None
+    user_status.save()
+
+    if team.members_count == 0:
+        team.delete()
+    else:
+        team.save()
 
     return HttpResponseRedirect(reverse("home"), {
-        'user': user, 'message': '',
+        'user': request.user, 'message': '',
     })
 
 

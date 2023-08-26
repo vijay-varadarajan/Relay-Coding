@@ -10,4 +10,5 @@ urlpatterns = [
     path("create/", views.create_team_view, name="create_team_view"),
     path("join/", views.join_team_view, name="join_team_view"),
     path("leave/", views.leave_team_view, name="leave_team_view"),
+    path("submission/", views.submission_view, name="submission_view"),
 ]

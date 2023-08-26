@@ -26,9 +26,12 @@
                 <h5><b>Team: {{ team.team_name }}</b></h5>
                 <p>Passcode: {{ team.team_passcode }}</p>
                 <h4>Members: </h4>
-                {% for user in users %}
-                    <p>1. {{ user.username }}</p>
-                {% endfor %}
+                <ol>
+                    {% for member in members %}
+                        <li>{{ member }}</li>
+                    {% endfor %}
+                </ol>
+                <a href="{% url 'submission_view' %}"><button class="button-primary">Submit idea</button></a>
                 <a href="{% url 'leave_team_view' %}"><button class="button-primary">Leave team</button></a>
             {% endif %}
         </div>
