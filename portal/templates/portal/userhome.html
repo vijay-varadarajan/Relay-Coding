@@ -31,6 +31,7 @@
    <section id="myteam" class="responsive-container-block outer-container">
     <h1>{{ user.username }}</h1>
     {% if not in_team %}
+    <h2>You are not in a team</h2>
     <a href="{% url 'create_team_view' %}"><button class="btn-primary">Create a team</button></a><br><br>
     <a href="{% url 'join_team_view' %}"><button class="btn-primary">Join a team</button></a>
     {% else %}
@@ -40,7 +41,7 @@
         <div class="box">
           <div class="top-bar"></div>
           <div class="content">
-            <img src="Images/user.jpg" alt="">
+            <img src="{% static 'portal/Images/user.jpg' %}" alt="">
             <strong>{{ member.username }}</strong>
             <p>{{ member.email }}</p>
           </div>
@@ -163,7 +164,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="Scripts/main.js"></script>
+    <script src="{% static 'portal/Scripts/main.js' %}"></script>
 
 </body>
 </html>

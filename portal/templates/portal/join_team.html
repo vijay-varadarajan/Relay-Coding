@@ -17,10 +17,11 @@
             <h1>IET</h1>
         </div>
         <ul onmousedown="return false" onselectstart="return false">
-        <!-- <li class="home"><a href="index.html#home">Home</a></li>
-        <li class="about"><a href="index.html#about">About</a></li>
-        <li class="timeline"><a href="index.html#timeline">Timeline</a></li>
-        <li class="contact"><a href="index.html#contact">Contact</a></li> -->
+          <li class="myteam active"><a href="{% url 'userhome' %}#myteam">My Team</a></li>
+          <!-- <li class="about"><a href="index.html#about">About</a></li> -->
+          <li class="timeline"><a href="{% url 'userhome' %}#timeline">Timeline</a></li>
+          <li class="submit"><a href="{% url 'userhome' %}#submit">Submit Idea</a></li>
+          <li class="contact"><a href="{% url 'userhome' %}#contact">Contact</a></li>
         </ul>
         <div class="btns">
             <!-- <a href="register.html"><button class="btn-primary">Register</button></a> -->
@@ -59,7 +60,7 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="Scripts/main.js"></script>
+    <script src="{% static 'portal/Scripts/main.js' %}"></script>
 
 </body>
 </html>

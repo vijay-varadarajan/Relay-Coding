@@ -93,13 +93,9 @@ def submission_view(request):
         user_status = UserStatus.objects.get(user=user)
 
         if not user_status.in_team:
-            return HttpResponseRedirect(reverse("userhome"), {
-                'user': request.user, 'message': 'Create or join a team to submit idea!', 'user_status':user_status,
-            })
+            return HttpResponseRedirect(reverse("userhome") + "#submit")
         
-        return HttpResponseRedirect(reverse("userhome") + "#submit", {
-            'user': request.user, 'message': '', 'user_status':user_status,
-        })
+        return HttpResponseRedirect(reverse("userhome") + "#submit")
 
 @login_required(login_url='/login')
 def create_team_view(request):
@@ -153,6 +149,12 @@ def create_team_view(request):
         message = "Team created successfully!"
     
         return HttpResponseRedirect(reverse("userhome"))
+    
+    user = request.user
+    user_status = UserStatus.objects.get(user=user)
+    if user_status.in_team:
+        return HttpResponseRedirect(reverse("userhome"))
+    
     return render(request, "portal/create_team.html", {
         'message': '', 'user': request.user,
     })  
@@ -160,6 +162,10 @@ def create_team_view(request):
 
 def join_team_view(request):
     if request.method == "POST":
+        
+        user_status = UserStatus.objects.get(user=request.user)
+        if user_status.in_team:
+            return HttpResponseRedirect(reverse("userhome"))
         
         team_name = request.POST["team_name"]
         team_passcode = request.POST["team_passcode"]
@@ -193,7 +199,13 @@ def join_team_view(request):
         team.members_count += 1
         team.save()
         
-        return HttpResponseRedirect(reverse("userhome"), {})
+        return HttpResponseRedirect(reverse("userhome"))
+    
+    user = request.user
+    user_status = UserStatus.objects.get(user=user)
+    if user_status.in_team:
+        return HttpResponseRedirect(reverse("userhome"))
+    
     return render(request, "portal/join_team.html", {
         'message': '', 'user': request.user,
     })
@@ -217,9 +229,7 @@ def leave_team_view(request):
     else:
         team.save()
 
-    return HttpResponseRedirect(reverse("userhome"), {
-        'user': request.user, 'message': '',
-    })
+    return HttpResponseRedirect(reverse("userhome"))
 
 
 def login_view(request):
@@ -245,6 +255,7 @@ def login_view(request):
                 "message": "Invalid username and/or password."
             })
         return HttpResponseRedirect(reverse("userhome"))
+    
     return render(request, "portal/login.html")
 
 
@@ -266,6 +277,7 @@ def register_view(request):
         try:
             user = User.objects.create_user(first_name=first_name, username=username, email=email, password=password)
             user.save()
+            
         except IntegrityError:
             return render(request, "portal/register.html", {
                 "message": "Username/Email already taken!"
