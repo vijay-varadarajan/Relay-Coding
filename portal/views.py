@@ -23,10 +23,12 @@ def userhome(request):
 
         members = []
         for member_id in members_ids:
-            members.append(str(User.objects.get(id = member_id).username))
+            members.append(User.objects.get(id = member_id))
+
+        submissions = Submission.objects.get(team=user_status.joined_team)
 
         return render(request, "portal/userhome.html", {
-            'in_team': True, 'members': members, 'team':team , 'message': '',
+            'in_team': True, 'members': members, 'submissions':submissions, 'team':team , 'message': '',
         })
     
     return render(request, "portal/userhome.html", {
@@ -38,23 +40,26 @@ def userhome(request):
 def submission_view(request):
     if request.method == "POST":
         
+        user = User.objects.get(username=request.user.username)
+        user_status = UserStatus.objects.get(user=user)
+
         project_title = request.POST["project_title"]
         if not project_title:
-            return render(request, "portal/submission.html", {
-                'message': "Project title cannot be empty!",
+            return render(request, "portal/userhome.html", {
+                'message': "Project title cannot be empty!", 'user': request.user, 'user_status':user_status,
             })
         
         try:
             track = request.POST["track"]
         except:
-            return render(request, "portal/submission.html", {
-                'message': "Track cannot be empty!",
+            return render(request, "portal/userhome.html", {
+                'message': "Track cannot be empty!", 'user': request.user, 'user_status':user_status,
             })
         
         project_description = request.POST["project_description"]
         if not project_description:
-            return render(request, "portal/submission.html", {
-                'message': "Project description cannot be empty!",
+            return render(request, "portal/userhome.html", {
+                'message': "Project description cannot be empty!", 'user': request.user,'user_status':user_status,
             })
         
         github_link = request.POST["github_link"]
@@ -62,12 +67,12 @@ def submission_view(request):
         drive_link = request.POST["drive_link"]
 
         # check if user is in a team
-        user = User.objects.get(username=request.user.username)
-        user_status = UserStatus.objects.get(user=user)
         if not user_status.in_team:
-            return render(request, "portal/home.html", {
-                'message': "Create or join a team to submit idea!",
+            return render(request, "portal/userhome.html", {
+                'message': "Create or join a team to submit idea!", 'user': request.user, 'user_status':user_status,
             })
+        
+        print(project_title, track, project_description, github_link, drive_link)
         
         submissions = Submission.objects.get(team=user_status.joined_team)
         submissions.title = project_title
@@ -76,28 +81,24 @@ def submission_view(request):
         submissions.github_link = github_link
         submissions.drive_link = drive_link
         submissions.save()
+        
+        submissions = Submission.objects.get(team=user_status.joined_team)
 
-        return HttpResponseRedirect(reverse("home"), {
-            'user': request.user, 'message': '',
+        return HttpResponseRedirect(reverse("userhome"), {
+            'user': request.user, 'submissions':submissions, 'message': 'Submitted successfully!', 'user_status':user_status,
         })
 
     else:
         user = User.objects.get(username=request.user.username)
         user_status = UserStatus.objects.get(user=user)
-        
-        try:
-            submissions = Submission.objects.get(team=user_status.joined_team)
-        except:
-            submissions = Submission.objects.create(team=user_status.joined_team)
-            submissions.save()
 
         if not user_status.in_team:
-            return render(request, "portal/userhome.html", {
-                'message': "Create or join a team to submit idea!",
+            return HttpResponseRedirect(reverse("userhome"), {
+                'user': request.user, 'message': 'Create or join a team to submit idea!', 'user_status':user_status,
             })
         
-        return render(request, "portal/submission.html", {
-            'message': '', 'submission': submissions,
+        return HttpResponseRedirect(reverse("userhome") + "#submit", {
+            'user': request.user, 'message': '', 'user_status':user_status,
         })
 
 @login_required(login_url='/login')
@@ -114,16 +115,23 @@ def create_team_view(request):
         message = ''
         team_name = request.POST["team_name"]
         team_passcode = request.POST["team_passcode"]
+        repeat_passcode = request.POST["repeat_passcode"]
+
+        if team_passcode != repeat_passcode:
+            message = "Passcodes are not the same"
+            return render(request, "portal/create_team.html", {
+                'message': message, 'user': request.user,
+            })
 
         if not team_name:
             message = "Team name cannot be empty!"
             return render(request, "portal/create_team.html", {
-                'message': message,
+                'message': message, 'user': request.user,
             })
         if not team_passcode:
             message = "Team passcode cannot be empty!"
             return render(request, "portal/create_team.html", {
-                'message': message,
+                'message': message, 'user': request.user,
             })
         
         
@@ -132,6 +140,12 @@ def create_team_view(request):
         
         user_status.in_team = True
         user_status.joined_team = new_team
+
+        try:
+            submissions = Submission.objects.get(team=user_status.joined_team)
+        except:
+            submissions = Submission.objects.create(team=user_status.joined_team)
+            submissions.save()
         
         new_team.save()
         user_status.save()
@@ -140,7 +154,7 @@ def create_team_view(request):
     
         return HttpResponseRedirect(reverse("userhome"))
     return render(request, "portal/create_team.html", {
-        'message': '',
+        'message': '', 'user': request.user,
     })  
 
 
@@ -155,18 +169,18 @@ def join_team_view(request):
             team = Team.objects.get(team_name=team_name)
         except:
             return render(request, "portal/join_team.html", {
-                'message': "Team does not exist!",
+                'message': "Team does not exist!", 'user': request.user,
             })
         
         # check if team passcode matches
         if team.team_passcode != team_passcode:
             return render(request, "portal/join_team.html", {
-                'message': "Incorrect passcode!",
+                'message': "Incorrect passcode!", 'user': request.user,
             })
         
         if team.members_count == 4:
             return render(request, "portal/join_team.html", {
-                'message': "Team is full!",
+                'message': "Team is full!", 'user': request.user,
             })
 
         # update userstatus with teamname and joined team
@@ -180,7 +194,9 @@ def join_team_view(request):
         team.save()
         
         return HttpResponseRedirect(reverse("userhome"), {})
-    return render(request, "portal/join_team.html")
+    return render(request, "portal/join_team.html", {
+        'message': '', 'user': request.user,
+    })
 
 
 def leave_team_view(request):
@@ -235,7 +251,7 @@ def login_view(request):
 def register_view(request):
     if request.method == "POST":
         first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
+        
         username = request.POST["username"]
         email = request.POST["email"]
         
@@ -248,7 +264,7 @@ def register_view(request):
             })
         
         try:
-            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
+            user = User.objects.create_user(first_name=first_name, username=username, email=email, password=password)
             user.save()
         except IntegrityError:
             return render(request, "portal/register.html", {

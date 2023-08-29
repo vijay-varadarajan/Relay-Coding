@@ -1,16 +1,120 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Portal home</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="{% static 'portal/login.css' %}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    </head>
-    <body>
-        <a href="{% url 'login_view' %}"><button class="button-primary">Login</button></a>
-        <a href="{% url 'register_view' %}"><button class="button-primary">Register</button></a>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IET - Relay Coding</title>
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="brand">
+        <h1>IET</h1>
+    </div>
+    <ul onmousedown="return false" onselectstart="return false">
+    <li class="home active"><a href="{% url 'home' %}"><a href="#home">Home</a></a></li>
+    <li class="about"><a href="{% url 'home' %}"><a href="#about">About</a></a></li>
+    <li class="timeline"><a href="{% url 'home' %}"><a href="#timeline">Timeline</a></a></li>
+    <li class="contact"><a href="{% url 'home' %}"><a href="#contact">Contact</a></a></li>
+    </ul>
+    <div class="btns">
+        <a href="{% url 'register_view' %}"><button class="btn-primary">Register</button></a>
+        <a href="{% url 'login_view' %}"><button class="btn-secondary">Login</button></a>
+    </div>
+</nav>
+   <section id="home">
+      <p>{{ message }}</p>
+        <div class="content">
+            <h1>Ideate. Innovate. Transform.</h1>
+            <p>
+                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, obcaecati quibusdam. Iste sequi iusto veniam deleniti autem, totam corporis fuga eius, ducimus culpa, omnis ea voluptatem fugiat maiores alias porro.
+            </p>
+            <a href="{% url 'register_view' %}"><button class="btn-primary">Get Started</button></a>
+        </div>
+
+    </section>
+        
+    <section id="about">
+        <div class="content">
+            <h1>About</h1>
+            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
+            <br>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum impedit placeat facere odio architecto reiciendis amet quisquam labore libero minus? Molestiae nihil provident impedit quisquam, cum officia ullam perferendis deleniti!
+            Sint incidunt rerum molestias deleniti culpa, nemo, sed alias libero ipsa adipisci nulla cumque aliquid dolorem architecto ex nisi minima inventore, in iure sunt voluptatibus debitis maxime consequatur! Deleniti, nihil?
+            Rem culpa unde ut sed, consectetur consequuntur accusamus nam, cupiditate beatae voluptatibus dolores deleniti quisquam dignissimos. Mollitia architecto autem voluptatem natus? Neque consectetur quod natus exercitationem hic. Adipisci, nostrum dolorem?
+            Inventore voluptatibus enim quasi ab aspernatur nostrum voluptates fugiat. Repudiandae atque officiis illum obcaecati nesciunt, earum libero sapiente aut, in ipsam illo sed veniam reiciendis, cupiditate necessitatibus delectus voluptates suscipit!
+            Debitis totam eum eos non, aut libero, velit optio beatae, sit odit dignissimos unde quo? Mollitia dolorem est incidunt iure totam fugiat quidem, molestiae, vero nihil, quas eius sapiente esse.</p>
+        </div>
+
+        <div class="image">
+            <img src="Images/about-content.png" alt="">
+        </div>
+    </section>
+
+
+    <section id="timeline">
+        <h1>Timeline</h1>
+        <div class="timeline">
+            <div class="container left">
+              <div class="content">
+                <h2>Sep 10th, 2023</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+              </div>
+            </div>
+            <div class="container right">
+              <div class="content">
+                <h2>Sep 10th, 2023</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+              </div>
+            </div>
+            <div class="container left">
+                <div class="content">
+                  <h2>Sep 10th, 2023</h2>
+                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+                </div>
+              </div>
+              <div class="container right">
+                <div class="content">
+                  <h2>Sep 10th, 2023</h2>
+                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+                </div>
+              </div>
+          </div>
+    </section>
+
+    <section id="contact">
+        <div class="content social-icons">
+            <h1>Contact</h1>
+            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
+            <br>
+            <a href="#"  title="facebook"> 
+                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="twitter"> 
+                <i class="fa fa-twitter-square" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="instagram">  
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="linkedin">
+                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+              </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© Copyright 2023, IET-VIT</p>
+    </footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="Scripts/main.js"></script>
+
+</body>
 </html>

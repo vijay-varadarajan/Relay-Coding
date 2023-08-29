@@ -1,39 +1,169 @@
-<!-- user home page -->
-<!-- login page -->
 {% load static %}
 
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IET - Relay Coding</title>
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="brand">
+        <h1>IET</h1>
+    </div>
+    <ul onmousedown="return false" onselectstart="return false">
+    <li class="myteam active"><a href="{% url 'userhome' %}"><a href="#myteam">My Team</a></a></li>
+    <!-- <li class="about"><a href="index.html#about">About</a></li> -->
+    <li class="timeline"><a href="{% url 'userhome' %}"><a href="#timeline">Timeline</a></a></li>
+    <li class="submit"><a href="{% url 'userhome' %}"><a href="#submit">Submit Idea</a></a></li>
+    <li class="contact"><a href="{% url 'userhome' %}"><a href="#contact">Contact</a></a></li>
+    </ul>
+    <div class="btns">
+        <!-- <a href="register.html"><button class="btn-primary">Register</button></a> -->
+        <a href="{% url 'logout_view' %}"><button class="btn-secondary">Logout</button></a>
+    </div>
+</nav>
+   <section id="myteam" class="responsive-container-block outer-container">
+    <h1>{{ user.username }}</h1>
+    {% if not in_team %}
+    <a href="{% url 'create_team_view' %}"><button class="btn-primary">Create a team</button></a><br><br>
+    <a href="{% url 'join_team_view' %}"><button class="btn-primary">Join a team</button></a>
+    {% else %}
+    <h1>My Team: {{ team.team_name }}</h1>
+    <div class="container">
+        {% for member in members %}
+        <div class="box">
+          <div class="top-bar"></div>
+          <div class="content">
+            <img src="Images/user.jpg" alt="">
+            <strong>{{ member.username }}</strong>
+            <p>{{ member.email }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <h1><i>Passcode: {{ team.team_passcode }}</i></h1>
+    <a href="{% url 'leave_team_view' %}">
+      <button class="btn-primary">Leave Team</button>
+    </a>
+    {% endif %}
+        
 
-<html>
-    <head>
-        <title>Portal Home</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="{% static 'portal/login.css' %}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div>
-            <a href="{% url 'logout_view' %}"><button class="button-primary">Logout</button></a>
+    </section>
+        
+    <section id="timeline">
+        <h1>Timeline</h1>
+        <div class="timeline">
+            <div class="container left">
+              <div class="content">
+                <h2>Sep 10th, 2023</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+              </div>
+            </div>
+            <div class="container right">
+              <div class="content">
+                <h2>Sep 10th, 2023</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+              </div>
+            </div>
+            <div class="container left">
+                <div class="content">
+                  <h2>Sep 10th, 2023</h2>
+                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+                </div>
+              </div>
+              <div class="container right">
+                <div class="content">
+                  <h2>Sep 10th, 2023</h2>
+                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
+                </div>
+              </div>
+          </div>
+    </section>
+
+
+
+    <section id="submit">
+    {% if not in_team %}
+    <h1>Join a team or create one to submit your idea</h1>
+    <a href="{% url 'create_team_view' %}"><button class="btn-primary">Create a team</button></a>
+    <a href="{% url 'join_team_view' %}"><button class="btn-primary">Join a team</button></a>
+    {% else %}
+        <div class="content">
+          <h1>Congratulations</h1>
+          <p><span>You are now in the last phase of the relay</span></p>
         </div>
-        <div class="login-box">
-            <h2>Welcome, {{ user.username }}</h2>
+  
+        <form action="{% url 'submission_view' %}" method="post">
+          <div class="container">
+            {% csrf_token %}
             <p>{{ message }}</p>
-            {% if not in_team %}
-                <a href="{% url 'create_team_view' %}"><button class="button-primary">Create a team</button></a>
-                <a href="{% url 'join_team_view' %}"><button class="button-primary">Join a team</button></a>
-            {% else %}
-                <h5><b>Team: {{ team.team_name }}</b></h5>
-                <p>Passcode: {{ team.team_passcode }}</p>
-                <h4>Members: </h4>
-                <ol>
-                    {% for member in members %}
-                        <li>{{ member }}</li>
-                    {% endfor %}
-                </ol>
-                <a href="{% url 'submission_view' %}"><button class="button-primary">Submit idea</button></a>
-                <a href="{% url 'leave_team_view' %}"><button class="button-primary">Leave team</button></a>
-            {% endif %}
+            <h2>Submit Idea</h2><br>
+
+            <label for="title"><b>Track</b></label>
+            <select id="track" name="track">
+            <!-- default disabled option -->
+            <option value="" disabled selected>Select your track</option>
+            <option value="track1">Track1</option>
+            <option value="track2">Track2</option>
+            <option value="track3">Track3</option>
+            <option value="track3">Track4</option>
+            </select>
+
+            <label for="title"><b>Project Title</b></label>
+            <input type="text" placeholder="Enter project title" name="project_title" id="title" required autocomplete="off" value="{{ submissions.title }}">
+        
+            <label for="desc"><b>Description</b></label>
+            <textarea rows="5" name="project_description" maxlength="500" placeholder="Enter your description in less than 500 characters">{{ submissions.description }}</textarea>
+        
+            <label for="link-1"><b>Project Link-1</b></label>
+            <input type="text" placeholder="Enter your project link-1" name="github_link" id="link-1" value="{{ submissions.github_link }}" required autocomplete="off">
+
+            <label for="link-2"><b>Project Link-2</b></label>
+            <input type="text" placeholder="Enter your project link-2" name="drive_link" id="link-2" value="{{ submissions.drive_link }}" autocomplete="off">
+
+            <input type="submit" name="Submit" class="registerbtn" placeholder="Submit" />
+          </div>
+        </form>
+      {% endif %}
+      </section>
+
+
+
+    <section id="contact">
+        <div class="content social-icons">
+            <h1>Contact</h1>
+            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
+            <br>
+            
+              <a href="#"  title="facebook"> 
+                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="twitter"> 
+                <i class="fa fa-twitter-square" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="instagram">  
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a href="#" title="linkedin">
+                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+              </a>
+        
         </div>
-    </body>
+    </section>
+
+    <footer>
+        <p>© Copyright 2023, IET-VIT</p>
+    </footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="Scripts/main.js"></script>
+
+</body>
 </html>
