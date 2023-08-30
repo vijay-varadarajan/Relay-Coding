@@ -146,7 +146,7 @@ def create_team_view(request):
         try:
             submissions = Submission.objects.get(team=user_status.joined_team)
         except:
-            submissions = Submission.objects.create(team=user_status.joined_team)
+            submissions = Submission(team=user_status.joined_team, title="", track="", description="", github_link="", drive_link="")
             submissions.save()
 
         print("checked submissions")
