@@ -36,7 +36,7 @@
         <p><span>Your account is successfully created</span></p>
     </div>
 
-      <form action="{% url 'create_team_view' %}">
+      <form action="{% url 'create_team_view' %}" method="post">
         {% csrf_token %}
         <div class="container">
           <p>{{ message }}</p>
