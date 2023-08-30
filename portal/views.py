@@ -142,19 +142,19 @@ def create_team_view(request):
         user_status.in_team = True
         user_status.joined_team = new_team
         print("user status updated")
-
-        try:
-            submissions = Submission.objects.get(team=user_status.joined_team)
-        except:
-            submissions = Submission(team=user_status.joined_team, title="", track="", description="", github_link="", drive_link="")
-            submissions.save()
-
-        print("checked submissions")
         
         new_team.save()
         user_status.save()
-
         print("saved")
+
+        try:
+            submissions = Submission.objects.get(team=new_team)
+        except:
+            submissions = Submission(team=new_team, title="", track="", description="", github_link="", drive_link="")
+            submissions.save()
+
+        print("checked submissions")
+
         message = "Team created successfully!"
     
         return HttpResponseRedirect(reverse("userhome"))
