@@ -103,6 +103,8 @@ def create_team_view(request):
         # check if userstatus.in_team is true for user id from user table
         user = User.objects.get(username=request.user.username)
         user_status = UserStatus.objects.get(user=user)
+        print(user_status)
+
         if user_status.in_team:
             return render(request, "portal/create_team.html", {
                 'message': "You are already in a team!",
@@ -112,6 +114,8 @@ def create_team_view(request):
         team_name = request.POST["team_name"]
         team_passcode = request.POST["team_passcode"]
         repeat_passcode = request.POST["repeat_passcode"]
+
+        print(team_name, team_passcode, repeat_passcode)
 
         if team_passcode != repeat_passcode:
             message = "Passcodes are not the same"
@@ -133,19 +137,24 @@ def create_team_view(request):
         
         # update database
         new_team = Team(team_name=team_name, team_passcode=team_passcode)
-        
+        print("new team created")
+
         user_status.in_team = True
         user_status.joined_team = new_team
+        print("user status updated")
 
         try:
             submissions = Submission.objects.get(team=user_status.joined_team)
         except:
             submissions = Submission.objects.create(team=user_status.joined_team)
             submissions.save()
+
+        print("checked submissions")
         
         new_team.save()
         user_status.save()
 
+        print("saved")
         message = "Team created successfully!"
     
         return HttpResponseRedirect(reverse("userhome"))
