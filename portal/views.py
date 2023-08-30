@@ -18,8 +18,8 @@ def userhome(request):
         # complete team members functionality
         # get the usernames from user table of all users in user_status where joined_team matches team
         members_ids = []
-        for qset in UserStatus.objects.filter(joined_team_id = team.id):
-            members_ids += str(qset.id)
+        for qset in UserStatus.objects.filter(joined_team = team):
+            members_ids.append(qset.user.id)
 
         members = []
         for member_id in members_ids:
