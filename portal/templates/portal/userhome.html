@@ -104,6 +104,12 @@
         <div class="content">
           <h1>Congratulations</h1>
           <p><span>You are now in the last phase of the relay</span></p>
+          
+          <br>
+
+          {% if submissions.track %}
+            <p><b>Idea submitted successfully !</b></p>
+          {% endif %}
         </div>
   
         <form action="{% url 'submission_view' %}" method="post">

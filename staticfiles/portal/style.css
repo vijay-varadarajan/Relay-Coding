@@ -522,6 +522,7 @@ input[type=checkbox] {
 
 
 form {
+  margin-bottom: 20px;
   margin-top: 20px;
   margin-right: 48px;
   padding: 16px;
