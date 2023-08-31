@@ -16,17 +16,17 @@
         <div class="brand">
             <h1>IET</h1>
         </div>
-        <ul onmousedown="return false" onselectstart="return false">
-          <li class="myteam active"><a href="{% url 'userhome' %}#myteam">My Team</a></li>
-          <!-- <li class="about"><a href="index.html#about">About</a></li> -->
-          <li class="timeline"><a href="{% url 'userhome' %}#timeline">Timeline</a></li>
-          <li class="submit"><a href="{% url 'userhome' %}#submit">Submit Idea</a></li>
-          <li class="contact"><a href="{% url 'userhome' %}#contact">Contact</a></li>
-        </ul>
-        <div class="btns">
-            <!-- <a href="register.html"><button class="btn-primary">Register</button></a> -->
-            <a href="{% url 'logout_view' %}"><button class="btn-secondary">Logout</button></a>
-        </div>
+        <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
+          <input type="checkbox" id="checkbox_toggle" />
+          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+          <div class="menu">
+            <li class="home active"><a href="{% url 'home' %}#home" onclick="closeMenu()">Home</a></li>
+            <li class="about"><a href="{% url 'home' %}#about" onclick="closeMenu()">About</a></li>
+            <li class="timeline"><a href="{% url 'home' %}#timeline" onclick="closeMenu()">Timeline</a></li>
+            <li class="contact"><a href="{% url 'home' %}#contact" onclick="closeMenu()">Contact</a></li>
+            <li class="logout"><a href="{% url 'logout_view' %}" onclick="closeMenu()"><button class="btn-primary">Logout</button></a></li>
+          </div>
+      </ul>
     </nav>
 
     <section id="join">

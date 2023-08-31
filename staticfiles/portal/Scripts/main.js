@@ -1,3 +1,9 @@
+function closeMenu() {
+  let input = document.getElementById('checkbox_toggle');
+  input.checked = false;
+}
+
+
 $(window).scroll(function() {
     if ($(window).scrollTop() > 10) {
         $("nav").addClass('floatingNav');

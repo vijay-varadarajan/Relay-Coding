@@ -31,9 +31,7 @@ def userhome(request):
             'in_team': True, 'members': members, 'submissions':submissions, 'team':team , 'message': '',
         })
     
-    return render(request, "portal/userhome.html", {
-        'in_team': False, 'user': user, 'message': '',
-    })
+    return HttpResponseRedirect(reverse("create_team_view"))
 
 
 @login_required(login_url='/login')
@@ -84,8 +82,8 @@ def submission_view(request):
         
         submissions = Submission.objects.get(team=user_status.joined_team)
 
-        return HttpResponseRedirect(reverse("userhome"), {
-            'user': request.user, 'submissions':submissions, 'message': 'Submitted successfully!', 'user_status':user_status,
+        return HttpResponseRedirect(reverse("userhome") + '#submit', {
+            'user': request.user, 'submissions':submissions, 'message': 'Submitted successfully!', 'user_status':user_status,   
         })
 
     else:
@@ -263,7 +261,13 @@ def login_view(request):
             return render(request, "portal/login.html", {
                 "message": "Invalid username and/or password."
             })
-        return HttpResponseRedirect(reverse("userhome"))
+        
+        user_status = UserStatus.objects.get(user=user)
+        if user_status.in_team:
+            return HttpResponseRedirect(reverse("userhome"))
+        return render(request, "portal/create_team.html", {
+            'user': request.user, 'message': 'Create or join an existing team!',
+        })
     
     return render(request, "portal/login.html")
 

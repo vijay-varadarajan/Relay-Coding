@@ -16,17 +16,22 @@
     <div class="brand">
         <h1>IET</h1>
     </div>
-    <ul onmousedown="return false" onselectstart="return false">
-    <li class="myteam active"><a href="{% url 'userhome' %}"><a href="#myteam">My Team</a></a></li>
-    <!-- <li class="about"><a href="index.html#about">About</a></li> -->
-    <li class="timeline"><a href="{% url 'userhome' %}"><a href="#timeline">Timeline</a></a></li>
-    <li class="submit"><a href="{% url 'userhome' %}"><a href="#submit">Submit Idea</a></a></li>
-    <li class="contact"><a href="{% url 'userhome' %}"><a href="#contact">Contact</a></a></li>
+    <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
+      <input type="checkbox" id="checkbox_toggle" />
+      <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+      <div class="menu">
+        <li class="home"><a href="{% url 'userhome' %}#myteam" onclick="closeMenu()">My team</a></li>
+        <li class="timeline"><a href="{% url 'userhome' %}#timeline" onclick="closeMenu()">Timeline</a></li>
+        <li class="about"><a href="{% url 'userhome' %}#submit" onclick="closeMenu()">Submit idea</a></li>
+        <li class="contact"><a href="{% url 'userhome' %}#contact" onclick="closeMenu()">Contact</a></li>
+        {% if not in_team %}
+        <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
+        <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
+        {% else %}
+        <li class="logout"><a href="{% url 'logout_view' %}" onclick="closeMenu()"><button class="btn-primary">Logout</button></a></li>
+        {% endif %}
+      </div>
     </ul>
-    <div class="btns">
-        <!-- <a href="register.html"><button class="btn-primary">Register</button></a> -->
-        <a href="{% url 'logout_view' %}"><button class="btn-secondary">Logout</button></a>
-    </div>
 </nav>
    <section id="myteam" class="responsive-container-block outer-container">
     <h1>{{ user.username }}</h1>
@@ -35,7 +40,7 @@
     <a href="{% url 'create_team_view' %}"><button class="btn-primary">Create a team</button></a><br><br>
     <a href="{% url 'join_team_view' %}"><button class="btn-primary">Join a team</button></a>
     {% else %}
-    <h1>My Team: {{ team.team_name }}</h1>
+    <h1>Team: {{ team.team_name }}</h1>
     <div class="container">
         {% for member in members %}
         <div class="box">
@@ -48,7 +53,8 @@
         </div>
         {% endfor %}
       </div>
-      <h1><i>Passcode: {{ team.team_passcode }}</i></h1>
+      <center><p><i>Passcode: {{ team.team_passcode }}</i></p></center>
+      <br>
     <a href="{% url 'leave_team_view' %}">
       <button class="btn-primary">Leave Team</button>
     </a>
@@ -109,11 +115,11 @@
             <label for="title"><b>Track</b></label>
             <select id="track" name="track" required>
             <!-- default disabled option -->
-            <option value="" disabled selected>Select your track</option>
-            <option value="track1">Track1</option>
-            <option value="track2">Track2</option>
-            <option value="track3">Track3</option>
-            <option value="track3">Track4</option>
+            <option value="" disabled>Select your track</option>
+            <option value="track1" {% if submissions.track == "track1" %}selected{% endif %}>Track1</option>
+            <option value="track2" {% if submissions.track == "track2" %}selected{% endif %}>Track2</option>
+            <option value="track3" {% if submissions.track == "track3" %}selected{% endif %}>Track3</option>
+            <option value="track4" {% if submissions.track == "track4" %}selected{% endif %}>Track4</option>
             </select>
 
             <label for="title"><b>Project Title</b></label>

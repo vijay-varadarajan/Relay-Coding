@@ -16,16 +16,18 @@
     <div class="brand">
         <h1>IET</h1>
     </div>
-    <ul onmousedown="return false" onselectstart="return false">
-    <li class="home active"><a href="{% url 'home' %}"><a href="#home">Home</a></a></li>
-    <li class="about"><a href="{% url 'home' %}"><a href="#about">About</a></a></li>
-    <li class="timeline"><a href="{% url 'home' %}"><a href="#timeline">Timeline</a></a></li>
-    <li class="contact"><a href="{% url 'home' %}"><a href="#contact">Contact</a></a></li>
-    </ul>
-    <div class="btns">
-        <a href="{% url 'register_view' %}"><button class="btn-primary">Register</button></a>
-        <a href="{% url 'login_view' %}"><button class="btn-secondary">Login</button></a>
-    </div>
+    <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
+      <input type="checkbox" id="checkbox_toggle" />
+      <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+      <div class="menu">
+        <li class="home active"><a href="{% url 'home' %}"><a href="#home" class="href" onclick="closeMenu()">Home</a></li>
+        <li class="about"><a href="{% url 'home' %}"><a href="#about" class="href" onclick="closeMenu()">About</a></li>
+        <li class="timeline"><a href="{% url 'home' %}"><a href="#timeline" class="href" onclick="closeMenu()">Timeline</a></li>
+        <li class="contact"><a href="{% url 'home' %}"><a href="#contact" class="href" onclick="closeMenu()">Contact</a></li>
+        <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
+        <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
+      </div>
+  </ul>
 </nav>
    <section id="home">
       <p>{{ message }}</p>
