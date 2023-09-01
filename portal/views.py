@@ -4,8 +4,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import EmailMessage
+from django.contrib import messages
+from django.template.loader import render_to_string
 
+import regex as re
+
+from .tokens import account_activation_token
 from .models import User, Team, Submission, UserStatus
+
 
 @login_required(login_url='/login')
 def userhome(request):
@@ -134,7 +144,7 @@ def create_team_view(request):
         
         
         # update database
-        new_team = Team(team_name=team_name, team_passcode=team_passcode)
+        new_team = Team(team_name=team_name, team_passcode=team_passcode, members_count=1)
         print("new team created")
 
         user_status.in_team = True
@@ -251,8 +261,10 @@ def login_view(request):
             return render(request, "portal/login.html", {
                 "message": "Password cannot be empty!"
             })
+        
         # authenticate user
         user = authenticate(request, username=username, password=password)
+        print(user)
 
         # Check if authentication successful
         if user is not None:
@@ -265,8 +277,9 @@ def login_view(request):
         user_status = UserStatus.objects.get(user=user)
         if user_status.in_team:
             return HttpResponseRedirect(reverse("userhome"))
+        
         return render(request, "portal/create_team.html", {
-            'user': request.user, 'message': 'Create or join an existing team!',
+            'user': request.user, 'message': '',
         })
     
     return render(request, "portal/login.html")
@@ -275,11 +288,33 @@ def login_view(request):
 def register_view(request):
     if request.method == "POST":
         first_name = request.POST["first_name"]
-        
+
         username = request.POST["username"]
+        if not len(str(username)) > 2:
+            return render(request, "portal/register.html", {
+                "message": "Username must be atleast 3 characters long"
+            })
+        
         email = request.POST["email"]
         
+        if not email:
+            return render(request, "portal/register.html", {
+                "message": "Must provide email!"
+            })
+        
+        # check if email matches regex
+        if not re.match(r"^[a-zA-Z]+\.[a-zA-Z]+[0-9]{4}@vitstudent.ac.in$", email):
+            return render(request, "portal/register.html", {
+                "message": "Must provide VIT email!"
+            })
+
         password = request.POST["password"]
+        # regex to validate password
+        if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{4,}$", password):
+            return render(request, "portal/register.html", {
+                "message": "Password must be atleast 4 characters long and contain atleast 1 uppercase, 1 lowercase and 1 number!"
+            })
+        
         retype_password = request.POST["retype_password"]
         
         if password != retype_password:
@@ -288,7 +323,7 @@ def register_view(request):
             })
         
         try:
-            user = User.objects.create_user(first_name=first_name, username=username, email=email, password=password)
+            user = User.objects.create_user(first_name=first_name, username=username, email=email, password=password, is_active=False)
             user.save()
             
         except IntegrityError:
@@ -299,12 +334,46 @@ def register_view(request):
         # update user status table
         user_status = UserStatus.objects.create(user=user)
         user_status.save()
+
+        print("user status created")
+
+        activateEmail(request, user, email)
         
-        # here i need to log the user in as well
-        login(request, user)
-        return HttpResponseRedirect(reverse("userhome"))
+        return HttpResponseRedirect(reverse("login_view"))
     
     return render(request, "portal/register.html")
+
+
+def activateEmail(request, user, to_email):
+    mail_subject = 'Activate your account.'
+    message = render_to_string('portal/activate_email.html', {
+        'user': user.username, 
+        'domain': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        'protocol': 'https' if request.is_secure() else 'http',
+    })
+
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    if email.send():
+        print("Email sent")
+    else:
+        print("Error sending Email")
+
+
+def activate(request, uidb64, token):
+    try:
+        user = User.objects.get(pk=force_str(urlsafe_base64_decode(uidb64)))
+    except:
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+
+        return HttpResponseRedirect(reverse('login_view'))
+    
+    return HttpResponseRedirect(reverse('register_view'))
 
 
 def home(request):

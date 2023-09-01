@@ -95,6 +95,15 @@ DATABASES = {
     'default' : dj_database_url.parse(env('DATABASE_URL'))
 }
 
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+
+PASSWORD_RESET_TIMEOUT = 360
+
 '''
 DATABASES = {
     "default": {
