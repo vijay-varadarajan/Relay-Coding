@@ -271,10 +271,14 @@ def login_view(request):
         if user is not None:
             login(request, user)
         else:
-            if not User.objects.get(username=username).is_active:
-                return render(request, "portal/login.html", {
-                    "message": "Account not activated! Check your email for activation link."
-                })
+            try:
+                if not User.objects.get(username=username).is_active:
+                    return render(request, "portal/login.html", {
+                        "message": "Account not activated! Check your email for activation link."
+                    })
+            except:
+                pass
+
             return render(request, "portal/login.html", {
                 "message": "Invalid username and/or password."
             })
