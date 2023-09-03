@@ -176,7 +176,7 @@ def create_team_view(request):
         'message': '', 'user': request.user,
     })  
 
-
+@login_required(login_url='/login')
 def join_team_view(request):
     if request.method == "POST":
         
@@ -228,6 +228,7 @@ def join_team_view(request):
     })
 
 
+@login_required(login_url='/login')
 def leave_team_view(request):
 
     user = User.objects.get(username=request.user.username)
@@ -270,6 +271,10 @@ def login_view(request):
         if user is not None:
             login(request, user)
         else:
+            if not User.objects.get(username=username).is_active:
+                return render(request, "portal/login.html", {
+                    "message": "Account not activated! Check your email for activation link."
+                })
             return render(request, "portal/login.html", {
                 "message": "Invalid username and/or password."
             })
@@ -278,9 +283,7 @@ def login_view(request):
         if user_status.in_team:
             return HttpResponseRedirect(reverse("userhome"))
         
-        return render(request, "portal/create_team.html", {
-            'user': request.user, 'message': '',
-        })
+        return HttpResponseRedirect(reverse("create_team_view"))
     
     return render(request, "portal/login.html")
 
@@ -295,7 +298,7 @@ def register_view(request):
                 "message": "Username must be atleast 3 characters long"
             })
         
-        email = request.POST["email"]
+        email = request.POST["email"].strip().lower()
         
         if not email:
             return render(request, "portal/register.html", {
@@ -385,3 +388,83 @@ def home(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("home"))
+
+
+def password_reset_email_form_view(request):
+    if request.method == "POST":
+        email = request.POST["email"].strip().lower()
+
+        if not email:
+            return render(request, "portal/password_reset_email_form.html", {
+                "message": "Must provide email!"
+            })
+        
+        # check if email matches regex
+        if not re.match(r"^[a-zA-Z]+\.[a-zA-Z]+[0-9]{4}@vitstudent.ac.in$", email):
+            return render(request, "portal/password_reset_email_form.html", {
+                "message": "Must provide VIT email!"
+            })
+        
+        print("Obtained valid email id")
+        
+        try:
+            user = User.objects.get(email=email)
+        except:
+            return HttpResponseRedirect(reverse("password_reset_email_form_view"))
+        
+        if user:
+            subject = "Password reset request"
+            message = render_to_string('portal/password_reset_email.html', {
+                'user': user.username, 
+                'domain': get_current_site(request).domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+                'protocol': 'https' if request.is_secure() else 'http',
+            })
+
+            email = EmailMessage(subject, message, to=[user.email])
+            if email.send():
+                print("Reset password Email sent")
+            else:
+                print("Error sending Reset password Email")
+
+        return HttpResponseRedirect(reverse('login_view'))
+
+    return render(request, "portal/password_reset_email_form.html")
+
+
+def reset(request, uidb64, token):
+    try:
+        user = User.objects.get(pk=force_str(urlsafe_base64_decode(uidb64)))
+    except:
+        user = None
+
+    print(user)
+
+    if user is not None and account_activation_token.check_token(user, token):
+        if request.method == "POST":
+            password = request.POST["password"]
+            # regex to validate password
+            if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{4,}$", password):
+                return render(request, "portal/password_reset.html", {
+                    "message": "Password must be atleast 4 characters long and contain atleast 1 uppercase, 1 lowercase and 1 number!"
+                })
+            
+            retype_password = request.POST["retype_password"]
+            
+            if password != retype_password:
+                return render(request, "portal/password_reset.html", {
+                    "message": "Passwords must match!"
+                })
+            
+            user.set_password(password)
+            user.save()
+
+            print("Password reset successful")
+
+            return HttpResponseRedirect(reverse('login_view'))
+        
+        return render(request, "portal/password_reset.html")
+    
+    print("Activation link invalid")
+    return HttpResponseRedirect(reverse('login_view'))

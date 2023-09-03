@@ -94,7 +94,8 @@ nav {
   align-items: center;
   transition: 0.2s;
   border-radius: 2px;
-  z-index: 100;
+  z-index: 999;
+  background: linear-gradient(hsl(223, 47%, 2%),hsla(223, 47%, 7%, 0.4));
 }
 
 .floatingNav {
@@ -771,7 +772,7 @@ margin-right: auto;
 
 #myteam .box{
   position: relative;
-  min-width: 100px;
+  min-width: 130px;
   background-color: #fff;
   display: flex;
   flex-direction: column;

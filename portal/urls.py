@@ -13,4 +13,6 @@ urlpatterns = [
     path("join/", views.join_team_view, name="join_team_view"),
     path("leave/", views.leave_team_view, name="leave_team_view"),
     path("submission/", views.submission_view, name="submission_view"),
+    path("password_reset/", views.password_reset_email_form_view, name="password_reset_email_form_view"),
+    path("reset/<uidb64>/<token>/", views.reset, name="reset"),
 ]
