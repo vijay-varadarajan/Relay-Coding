@@ -8,13 +8,14 @@
     <title>IET - Relay Coding</title>
     <link rel="stylesheet" href="{% static 'portal/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'portal/Images/icon.png' %}" type="image/x-icon">
     <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <!-- Navigation Bar -->
   <nav>
     <div class="brand">
-        <h1>IET</h1>
+      <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
     </div>
     <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
       <input type="checkbox" id="checkbox_toggle" />
@@ -102,9 +103,8 @@
     <a href="{% url 'join_team_view' %}"><button class="btn-primary">Join a team</button></a>
     {% else %}
         <div class="content">
-          <h1>Congratulations</h1>
-          <p><span>You are now in the last phase of the relay</span></p>
-          
+          <h1>We thrive on your creativity!</h1>
+          <p><span>Share your ideas with us, DON'T hesitate as we won't make fun of your ideas. Let's make this event the best one yet!</span></p>
           <br>
 
           {% if submissions.track %}
@@ -151,21 +151,21 @@
     <section id="contact">
         <div class="content social-icons">
             <h1>Contact</h1>
-            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
+            <p><span>Got burning questions or just want to chat about our awesome event? Drop us a line on our socials linked below, we promise we're as friendly as your favorite meme page.</span></p>    
             <br>
             
-              <a href="#"  title="facebook"> 
-                <i class="fa fa-facebook-square" aria-hidden="true"></i>
-              </a>
-              <a href="#" title="twitter"> 
-                <i class="fa fa-twitter-square" aria-hidden="true"></i>
-              </a>
-              <a href="#" title="instagram">  
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="#" title="linkedin">
-                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-              </a>
+            <a href="https://www.facebook.com/ietvit"  title="facebook"> 
+              <i class="fa fa-facebook-square" aria-hidden="true"></i>
+            </a>
+            <a href="https://twitter.com/theietvit" title="twitter"> 
+              <i class="fa fa-twitter-square" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/ietvit/" title="instagram">  
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/ietvit/mycompany/" title="linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+            </a>
         
         </div>
     </section>

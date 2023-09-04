@@ -8,13 +8,14 @@
     <title>IET - Relay Coding</title>
     <link rel="stylesheet" href="{% static 'portal/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'portal/Images/icon.png' %}" type="image/x-icon">
     <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <!-- Navigation Bar -->
   <nav>
     <div class="brand">
-        <h1>IET</h1>
+      <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
     </div>
     <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
       <input type="checkbox" id="checkbox_toggle" />
@@ -30,28 +31,27 @@
   </ul>
 </nav>
    <section id="home">
-      <p>{{ message }}</p>
-        <div class="content">
-            <h1>Ideate. Innovate. Transform.</h1>
+      <div class="content">
+            <h1><img src="{% static 'portal/Images/logo.png' %}" alt=""></h1><br>
             <p>
-                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, obcaecati quibusdam. Iste sequi iusto veniam deleniti autem, totam corporis fuga eius, ducimus culpa, omnis ea voluptatem fugiat maiores alias porro.
+              Relay Coding is not your typical hackathon - it's a fusion of innovation and exhilarating side-games. Participants solve real-world problems and collaborate with your teammates to conquer side-games together. It's not just a hackathon; it's a bonding experience.
+              The trademark of this event is the relay format side challenges. These challenges will add a twist to the competition, and possibly shuffle the leaderboard. Side-games inject an extra layer of excitement and refreshment to the hackathon experience.
             </p>
             <a href="{% url 'register_view' %}"><button class="btn-primary">Get Started</button></a>
         </div>
-
     </section>
         
     <section id="about">
         <div class="content">
-            <h1>About</h1>
-            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
-            <br>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum impedit placeat facere odio architecto reiciendis amet quisquam labore libero minus? Molestiae nihil provident impedit quisquam, cum officia ullam perferendis deleniti!
-            Sint incidunt rerum molestias deleniti culpa, nemo, sed alias libero ipsa adipisci nulla cumque aliquid dolorem architecto ex nisi minima inventore, in iure sunt voluptatibus debitis maxime consequatur! Deleniti, nihil?
-            Rem culpa unde ut sed, consectetur consequuntur accusamus nam, cupiditate beatae voluptatibus dolores deleniti quisquam dignissimos. Mollitia architecto autem voluptatem natus? Neque consectetur quod natus exercitationem hic. Adipisci, nostrum dolorem?
-            Inventore voluptatibus enim quasi ab aspernatur nostrum voluptates fugiat. Repudiandae atque officiis illum obcaecati nesciunt, earum libero sapiente aut, in ipsam illo sed veniam reiciendis, cupiditate necessitatibus delectus voluptates suscipit!
-            Debitis totam eum eos non, aut libero, velit optio beatae, sit odit dignissimos unde quo? Mollitia dolorem est incidunt iure totam fugiat quidem, molestiae, vero nihil, quas eius sapiente esse.</p>
+          <h1>About</h1>
+          <p><span>Ideate and implement an innovative solution to a problem statement! Experience the thrill of playing fun and exciting side games to earn points!            </span></p>
+          <br>
+          <p>
+            Relay Coding is a high-octane 36-hour technical Hackathon unlike anything seen before. It is a showcase of innovation where participants will be in a race against time to build pioneering projects aimed at solving real-world problems.<br> <br>
+            The trademark of this event will be the relay format side challenges. These challenges inject an extra layer of excitement, allowing teams to enhance their prospects and add a twist to the competition. <br> <br>
+            The initial phase of the event consists of ideation, project building, and relay challenges. The projects will then be reviewed and shortlisted teams will proceed to the final phase. <br> <br>
+            In the final phase, the teams will be presenting and pitching their projects to a panel of judges. This final sprint is where innovation converges with strategy. Teams will get to showcase their technical acumen along with their ability to present their ideas. All the teams will have only one goal, securing a coveted podium finish.
+          </p>
         </div>
 
         <div class="image">
@@ -93,18 +93,18 @@
     <section id="contact">
         <div class="content social-icons">
             <h1>Contact</h1>
-            <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, perferendis temporibus, magnam voluptas excepturi magni molestiae officiis suscipit voluptatem iusto porro laborum assumenda nihil et fugit velit impedit! Quos, facere?</span></p>
+            <p><span>Got burning questions or just want to chat about our awesome event? Drop us a line on our socials linked below, we promise we're as friendly as your favorite meme page.</span></p>
             <br>
-            <a href="#"  title="facebook"> 
+            <a href="https://www.facebook.com/ietvit"  title="facebook"> 
                 <i class="fa fa-facebook-square" aria-hidden="true"></i>
               </a>
-              <a href="#" title="twitter"> 
+              <a href="https://twitter.com/theietvit" title="twitter"> 
                 <i class="fa fa-twitter-square" aria-hidden="true"></i>
               </a>
-              <a href="#" title="instagram">  
+              <a href="https://www.instagram.com/ietvit/" title="instagram">  
                 <i class="fa fa-instagram" aria-hidden="true"></i>
               </a>
-              <a href="#" title="linkedin">
+              <a href="https://www.linkedin.com/company/ietvit/mycompany/" title="linkedin">
                 <i class="fa fa-linkedin-square" aria-hidden="true"></i>
               </a>
         </div>
