@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "Relay_Coding/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "Relay_Coding/wsgi.py"
+        }
+    ]
+}
