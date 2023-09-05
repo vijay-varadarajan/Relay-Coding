@@ -1,6 +1,0 @@
-- name: portal
-  ...
-  static_dirs:
-    - static
-  allow_paths:
-    - static/*
