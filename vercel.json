@@ -2,7 +2,8 @@
     "builds": [
         {
             "src": "Relay_Coding/wsgi.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb", "runtime": "python3.8" }
         }
     ],
     "routes": [
