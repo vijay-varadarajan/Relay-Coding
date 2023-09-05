@@ -1,0 +1,38 @@
+<!-- Head, Navbar, -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="{% static 'portal/Images/icon.png' %}" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="brand">
+        <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
+      </div>
+      <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
+        <input type="checkbox" id="checkbox_toggle" />
+        <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+        <div class="menu">
+          <li class="home active"><a href="{% url 'home' %}#home" class="href" onclick="closeMenu()">Home</a></li>
+          <li class="about"><a href="{% url 'home' %}#about" class="href" onclick="closeMenu()">About</a></li>
+          <li class="timeline"><a href="{% url 'home' %}#timeline" class="href" onclick="closeMenu()">Timeline</a></li>
+          <li class="contact"><a href="{% url 'home' %}#contact" class="href" onclick="closeMenu()">Contact</a></li>
+          <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
+          <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
+        </div>
+    </ul>
+  </nav>
+    {% block body %}  
+    {% endblock %}
+  </body>
+</html>
