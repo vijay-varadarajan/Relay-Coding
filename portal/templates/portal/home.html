@@ -1,35 +1,12 @@
+{% extends "portal/base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IET - Relay Coding</title>
-    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="shortcut icon" href="{% static 'portal/Images/icon.png' %}" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="brand">
-      <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
-    </div>
-    <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
-      <input type="checkbox" id="checkbox_toggle" />
-      <label for="checkbox_toggle" class="hamburger">&#9776;</label>
-      <div class="menu">
-        <li class="home active"><a href="{% url 'home' %}"><a href="#home" class="href" onclick="closeMenu()">Home</a></li>
-        <li class="about"><a href="{% url 'home' %}"><a href="#about" class="href" onclick="closeMenu()">About</a></li>
-        <li class="timeline"><a href="{% url 'home' %}"><a href="#timeline" class="href" onclick="closeMenu()">Timeline</a></li>
-        <li class="contact"><a href="{% url 'home' %}"><a href="#contact" class="href" onclick="closeMenu()">Contact</a></li>
-        <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
-        <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
-      </div>
-  </ul>
-</nav>
+{% block title %}
+IET - Relay Coding
+{% endblock %}
+
+{% block body %}
    <section id="home">
       <div class="content">
             <h1><img src="{% static 'portal/Images/logo.png' %}" alt=""></h1><br>
@@ -117,6 +94,4 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{% static 'portal/Scripts/main.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}

@@ -40,7 +40,7 @@
 
       <form action="{% url 'join_team_view' %}" method="post">
         {% csrf_token %}
-        <p>{{ message }}</p>
+        
         <div class="container">
           <h2>Join a team</h2><br>
           <label for="team_name"><b>Team Name</b></label>

@@ -43,7 +43,7 @@
       <form action="{% url 'create_team_view' %}" method="post">
         {% csrf_token %}
         <div class="container">
-          <p>{{ message }}</p>
+          
           <h2>Create a team</h2><br>
           <label for="name"><b>Team Name</b></label>
           <input type="text" placeholder="Enter Team Name" name="team_name" id="name" required autocomplete="off">

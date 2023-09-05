@@ -1,36 +1,10 @@
+{% extends "portal/base.html" %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IET - Relay Coding</title>
-    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="shortcut icon" href="{% static 'portal/Images/icon.png' %}" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>
-</head>
-<body>
+{% block title %}IET - Relay Coding - Login{% endblock %}
 
-    <nav>
-        <div class="brand">
-          <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
-        </div>
-        <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
-          <input type="checkbox" id="checkbox_toggle" />
-          <label for="checkbox_toggle" class="hamburger">&#9776;</label>
-          <div class="menu">
-            <li class="home"><a href="{% url 'home' %}#home" onclick="closeMenu()">Home</a></li>
-            <li class="about"><a href="{% url 'home' %}#about" onclick="closeMenu()">About</a></li>
-            <li class="timeline"><a href="{% url 'home' %}#timeline" onclick="closeMenu()">Timeline</a></li>
-            <li class="contact"><a href="{% url 'home' %}#contact" onclick="closeMenu()">Contact</a></li>
-            <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
-            <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
-          </div>
-        </ul>
-    </nav>
-
+{% block body %}
     <section id="register">
     
 
@@ -40,22 +14,20 @@
         <p>
           <span>Assemble your team and get ready to have an exhilarating journey, you are just a step away to join the coding adventure with a never before experience.</span>
         </p>
-          <div class="container signin">
-            <br>
-            <p>Forgot password? <a href="{% url 'password_reset_email_form_view' %}">Reset password</a></p>    
-          </div>
-        </p>
     </div>
 
       <form action="{% url 'login_view' %}" method="post">
         {% csrf_token %}
-        <p><i>{{ message }}</i></p>
+        
         <div class="container">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" id="email" required autocomplete="off">
           <label for="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="password" id="psw" required autocomplete="off">
-          <!-- <button class="btn-primary">Register</button> -->
+          <div>
+            <p><a href="{% url 'password_reset_email_form_view' %}">Forgot password? </a></p>    
+          </div>
+          
           <input type="submit" name="Submit" class="registerbtn" placeholder="Login" />
         </div>
         <div class="container signin">
@@ -68,6 +40,4 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="{% static 'portal/Scripts/main.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}

@@ -284,6 +284,9 @@ def login_view(request):
             })
         
         user_status = UserStatus.objects.get(user=user)
+        
+        messages.success(request, "Login successful.", fail_silently=True)
+        
         if user_status.in_team:
             return HttpResponseRedirect(reverse("userhome"))
         
