@@ -15,7 +15,7 @@
 
     <nav>
         <div class="brand">
-          <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
+          <a href="{% url 'home' %}"><h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1></a>
         </div>
         <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
           <input type="checkbox" id="checkbox_toggle" />
@@ -44,7 +44,7 @@
         <div class="container">
           <h2>Join a team</h2><br>
           <label for="team_name"><b>Team Name</b></label>
-          <input type="text" placeholder="Enter Team Name" name="team_name" id="name" required autocomplete="off">
+          <input type="text" placeholder="Enter Team Name" name="team_name" id="name" required autocomplete="off" autofocus>
       
           <label for="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Passcode" name="team_passcode" id="psw" required autocomplete="off">
@@ -59,10 +59,7 @@
       </form>
     </section>
 
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="{% static 'portal/Scripts/main.js' %}"></script>
-
+    {% include 'portal/includes/scripts.html' %}
+    
 </body>
 </html>

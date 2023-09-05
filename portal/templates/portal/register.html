@@ -18,7 +18,7 @@
         <div class="container">
           
           <label for="name"><b>Name</b></label>
-          <input type="text" placeholder="Enter First Name" name="first_name" id="name" required autocomplete="off">
+          <input type="text" placeholder="Enter First Name" name="first_name" id="name" required autocomplete="off" autofocus>
 
           <label for="name"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" id="name" required autocomplete="off">
@@ -43,9 +43,6 @@
       </form>
     </section>
 
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="{% static 'portal/Scripts/main.js' %}"></script>
-
+    {% include 'portal/includes/scripts.html' %}
+    
 {% endblock %}

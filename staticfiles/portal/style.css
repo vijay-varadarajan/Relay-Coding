@@ -156,6 +156,8 @@ button {
 
 .content .btn-primary {
   margin-top: 24px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 /* nav .btns .btn-primary {

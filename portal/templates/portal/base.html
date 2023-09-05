@@ -17,7 +17,7 @@
     <!-- Navigation Bar -->
     <nav>
       <div class="brand">
-        <h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1>
+        <a href="{% url 'home' %}"><h1><img src="{% static 'portal/Images/icon.png' %}" alt="IET"></h1></a>
       </div>
       <ul onmousedown="return false" onselectstart="return false" class="nav-list dropdown">
         <input type="checkbox" id="checkbox_toggle" />
@@ -32,7 +32,10 @@
         </div>
     </ul>
   </nav>
+
     {% block body %}  
     {% endblock %}
+
+    {% include 'portal/includes/scripts.html' %}
   </body>
 </html>

@@ -36,62 +36,12 @@ IET - Relay Coding
         </div>
     </section>
 
-
-    <section id="timeline">
-        <h1>Timeline</h1>
-        <div class="timeline">
-            <div class="container left">
-              <div class="content">
-                <h2>Sep 10th, 2023</h2>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
-              </div>
-            </div>
-            <div class="container right">
-              <div class="content">
-                <h2>Sep 10th, 2023</h2>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
-              </div>
-            </div>
-            <div class="container left">
-                <div class="content">
-                  <h2>Sep 10th, 2023</h2>
-                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
-                </div>
-              </div>
-              <div class="container right">
-                <div class="content">
-                  <h2>Sep 10th, 2023</h2>
-                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi praesentium sed accusantium eaque facilis hic pariatur fugiat, quo quam.</p>
-                </div>
-              </div>
-          </div>
-    </section>
-
-    <section id="contact">
-        <div class="content social-icons">
-            <h1>Contact</h1>
-            <p><span>Got burning questions or just want to chat about our awesome event? Drop us a line on our socials linked below, we promise we're as friendly as your favorite meme page.</span></p>
-            <br>
-            <a href="https://www.facebook.com/ietvit"  title="facebook"> 
-                <i class="fa fa-facebook-square" aria-hidden="true"></i>
-              </a>
-              <a href="https://twitter.com/theietvit" title="twitter"> 
-                <i class="fa fa-twitter-square" aria-hidden="true"></i>
-              </a>
-              <a href="https://www.instagram.com/ietvit/" title="instagram">  
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="https://www.linkedin.com/company/ietvit/mycompany/" title="linkedin">
-                <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-              </a>
-        </div>
-    </section>
+    {% include 'portal/includes/timeline.html' %}
+    
+    {% include 'portal/includes/contact.html' %}
 
     <footer>
         <p>© Copyright 2023, IET-VIT</p>
     </footer>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="{% static 'portal/Scripts/main.js' %}"></script>
 {% endblock %}
