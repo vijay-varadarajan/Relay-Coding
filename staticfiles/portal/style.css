@@ -990,7 +990,9 @@ margin-right: auto;
     padding-bottom: 2rem;
     box-shadow: 0 0 10px 5px rgba(64, 103, 241, 1);
 
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    -moz-backface-visibility:    hidden;
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
     transition-property: transform;
