@@ -954,6 +954,7 @@ margin-right: auto;
     font-size: 32px;
   }
 
+  /* popup */
   .popup {
     z-index: 2;
     position: fixed;
@@ -965,8 +966,8 @@ margin-right: auto;
     opacity: 0;
     visibility: hidden;
     padding-top: 10%;
-
   }
+
   .popup.is-visible {
     opacity: 1;
     visibility: visible;
@@ -988,6 +989,14 @@ margin-right: auto;
     height: fit-content;
     padding-bottom: 2rem;
     box-shadow: 0 0 10px 5px rgba(64, 103, 241, 1);
+
+    -webkit-backface-visibility: hidden;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    transition-duration: 0.3s;
   }
   
   .popup-container p {
