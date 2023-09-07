@@ -1,4 +1,3 @@
-messages
 winners page
 prizes section
 sponsors section

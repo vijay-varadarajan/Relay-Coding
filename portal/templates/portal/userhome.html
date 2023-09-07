@@ -21,10 +21,10 @@
       <input type="checkbox" id="checkbox_toggle" />
       <label for="checkbox_toggle" class="hamburger">&#9776;</label>
       <div class="menu">
-        <li class="home"><a href="{% url 'userhome' %}#myteam" onclick="closeMenu()">My team</a></li>
-        <li class="timeline"><a href="{% url 'userhome' %}#timeline" onclick="closeMenu()">Timeline</a></li>
-        <li class="about"><a href="{% url 'userhome' %}#submit" onclick="closeMenu()">Submit idea</a></li>
-        <li class="contact"><a href="{% url 'userhome' %}#contact" onclick="closeMenu()">Contact</a></li>
+        <li class="myteam active"><a href="{% url 'userhome' %}#myteam" class="href" onclick="closeMenu()">My team</a></li>
+        <li class="timeline"><a href="{% url 'userhome' %}#timeline" class="href" onclick="closeMenu()">Timeline</a></li>
+        <li class="submit"><a href="{% url 'userhome' %}#submit" class="href" onclick="closeMenu()">Submit idea</a></li>
+        <li class="contact"><a href="{% url 'userhome' %}#contact" class="href" onclick="closeMenu()">Contact</a></li>
         {% if not in_team %}
         <li class="register"><a href="{% url 'register_view' %}" onclick="closeMenu()"><button class="btn-primary">Register</button></a></li>
         <li class="login"><a href="{% url 'login_view' %}" onclick="closeMenu()"><button class="btn-secondary">Login</button></a></li>
@@ -35,7 +35,7 @@
     </ul>
 </nav>
 <section id="myteam" class="responsive-container-block outer-container">
-    <h1>{{ user.username }}</h1>
+    <h1>Hello, {{ user.username }}</h1>
     {% if not in_team %}
     <h2>You are not in a team</h2>
     <a href="{% url 'create_team_view' %}"><button class="btn-primary">Create a team</button></a><br><br>
@@ -56,9 +56,18 @@
       </div>
       <center><p><i>Passcode: {{ team.team_passcode }}</i></p></center>
       <br>
-    <a href="{% url 'leave_team_view' %}">
-      <button class="btn-primary">Leave Team</button>
-    </a>
+
+      <button class="btn-primary popup-trigger">Leave Team</button>
+      <div class="popup" role="alert">
+        <div class="popup-container">
+          <p>Are you sure you want to leave the team?<br><br>
+            <a href="{% url 'leave_team_view' %}">
+              <button class="btn-primary">Confirm</button>
+            </a>
+          </p>
+          <a href="#0" class="popup-close img-replace"></a>
+        </div>
+      </div>
     {% endif %}
     </section>
     
