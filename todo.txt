@@ -2,6 +2,3 @@ messages
 winners page
 prizes section
 sponsors section
-add url to navbar logo
-add links in contact
-add logos

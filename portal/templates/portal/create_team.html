@@ -18,7 +18,7 @@
         {% csrf_token %}
         <div class="container">
           
-          <h2>Create a team</h2><br>
+          <h2>Create a team</h2>
           <label for="name"><b>Team Name</b></label>
           <input type="text" placeholder="Enter Team Name" name="team_name" id="name" required autocomplete="off" autofocus>
       
@@ -27,6 +27,18 @@
       
           <label for="psw-repeat"><b>Repeat Passcode</b></label>
           <input type="password" placeholder="Repeat Passcode" name="repeat_passcode" id="psw-repeat" required autocomplete="off">
+
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <div {% if message.tags %} id="{{ message.tags }}" {% endif %}>
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+
           <input type="submit" name="Submit" placeholder="Create" class="registerbtn" />
         </div>
         

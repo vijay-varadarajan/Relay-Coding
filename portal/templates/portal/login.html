@@ -17,6 +17,7 @@
     </div>
 
       <form action="{% url 'login_view' %}" method="post">
+        
         {% csrf_token %}
         
         <div class="container">
@@ -27,6 +28,16 @@
           <div>
             <p><a href="{% url 'password_reset_email_form_view' %}">Forgot password? </a></p>    
           </div>
+
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <div {% if message.tags %} id="{{ message.tags }}" {% endif %}>
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
           
           <input type="submit" name="Submit" class="registerbtn" placeholder="Login" />
         </div>

@@ -22,8 +22,17 @@
       
           <label for="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Passcode" name="team_passcode" id="psw" required autocomplete="off">
-          <!-- <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p> -->
-          <!-- <button class="btn-primary">Register</button> -->
+          
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <div {% if message.tags %} id="{{ message.tags }}" {% endif %}>
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
           <input type="submit" name="Submit" placeholder="Join now" class="registerbtn" />
         </div>
         

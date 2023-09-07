@@ -21,18 +21,28 @@
           <input type="text" placeholder="Enter First Name" name="first_name" id="name" required autocomplete="off" autofocus>
 
           <label for="name"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" id="name" required autocomplete="off">
+          <input type="text" placeholder="Enter Username (must contain more than 2 characters)" name="username" id="name" required autocomplete="off">
 
           <label for="email"><b>VIT Email ID</b></label>
-          <input type="text" placeholder="Enter Email" name="email" id="email" required autocomplete="off">
+          <input type="text" placeholder="Enter VIT Email ID" name="email" id="email" required autocomplete="off">
       
           <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" id="psw" required autocomplete="off">
+          <input type="password" placeholder="Enter password (atleast 4 characters)" name="password" id="psw" required autocomplete="off">
       
           <label for="psw-repeat"><b>Repeat Password</b></label>
-          <input type="password" placeholder="Repeat Password" name="retype_password" id="psw-repeat" required autocomplete="off">
+          <input type="password" placeholder="Repeat password for confirmation" name="retype_password" id="psw-repeat" required autocomplete="off">
           <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-          <!-- <button class="btn-primary">Register</button> -->
+          
+          {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <div {% if message.tags %} id="{{ message.tags }}" {% endif %}>
+              <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          
           <input type="submit" name="Submit" placeholder="Register"
           class="registerbtn" />
         </div>

@@ -75,10 +75,6 @@
           <h1>We thrive on your creativity!</h1>
           <p><span>Share your ideas with us, DON'T hesitate as we won't make fun of your ideas. Let's make this event the best one yet!</span></p>
           <br>
-
-          {% if submissions.track %}
-            <p><b>Idea submitted successfully !</b></p>
-          {% endif %}
         </div>
   
         <form action="{% url 'submission_view' %}" method="post">
@@ -109,6 +105,16 @@
             <label for="link-2"><b>Project Link-2</b></label>
             <input type="text" placeholder="Enter your project link-2" name="drive_link" id="link-2" value="{{ submissions.drive_link }}" autocomplete="off">
 
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <div {% if message.tags %} id="{{ message.tags }}" {% endif %}>
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                </div>
+              {% endfor %}
+            </ul>
+            {% endif %}
+  
             <input type="submit" name="Submit" class="registerbtn" placeholder="Submit" />
           </div>
         </form>
