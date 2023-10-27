@@ -301,7 +301,7 @@ def register_view(request):
         password = request.POST["password"].strip()
         # regex to validate password
         if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{4,}$", password):
-            messages.error(request, "Password must be atleast 4 characters long and contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and no whitespace!")
+            messages.error(request, "Password must be atleast 4 characters long and contain atleast 1 uppercase letter, 1 lowercase letter, 1 number, no whitespace and no symbols!")
             return HttpResponseRedirect(reverse("register_view"))   
         
         retype_password = request.POST["retype_password"].strip()
